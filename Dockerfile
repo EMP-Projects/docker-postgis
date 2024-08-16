@@ -1,10 +1,7 @@
 FROM postgis/postgis:16-3.4
 
-WORKDIR /pg_cron 
-RUN git clone https://github.com/citusdata/pg_cron.git
-# Ensure pg_config is in your path, e.g.
-RUN export PATH=/usr/pgsql-16/bin:$PATH
-RUN make && sudo PATH=$PATH make install
+RUN apt-get -y update
+RUN apt-get -y --no-install-recommends install git build-essential postgresql-16-cron
 
 RUN echo "shared_preload_libraries='pg_cron'" >> /usr/share/postgresql/postgresql.conf
 RUN echo "cron.database_name='postgres'" >> /usr/share/postgresql/postgresql.conf
